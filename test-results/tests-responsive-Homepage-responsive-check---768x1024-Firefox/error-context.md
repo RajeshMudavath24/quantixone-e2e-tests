@@ -1,0 +1,1015 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: tests/responsive.spec.ts >> Homepage responsive check - 768x1024
+- Location: tests/responsive.spec.ts:11:7
+
+# Error details
+
+```
+Error: expect(received).toBeLessThanOrEqual(expected)
+
+Expected: <= 788
+Received:    790
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - region "Notifications Alt+T"
+  - button "Open chat" [ref=e3] [cursor=pointer]:
+    - img [ref=e4]
+  - banner [ref=e7]:
+    - generic [ref=e9]:
+      - link "QuantixOne Home" [ref=e11] [cursor=pointer]:
+        - /url: /
+        - img "QuantixOne Logo" [ref=e13]
+        - generic [ref=e14]: QuantixOne
+      - navigation "Main navigation" [ref=e15]:
+        - button "Products" [ref=e17] [cursor=pointer]:
+          - generic [ref=e18]: Products
+          - img [ref=e19]
+        - link "Features" [ref=e21] [cursor=pointer]:
+          - /url: /features
+        - link "Pricing" [ref=e22] [cursor=pointer]:
+          - /url: /pricing
+        - link "About Us" [ref=e23] [cursor=pointer]:
+          - /url: /aboutus
+        - link "Blogs" [ref=e24] [cursor=pointer]:
+          - /url: /blogs
+        - link "Book a Demo" [ref=e25] [cursor=pointer]:
+          - /url: /free-demo
+        - button "Start your free 14-day trial" [ref=e26] [cursor=pointer]:
+          - img [ref=e27]
+          - text: Start Free Trial
+  - main [ref=e30]:
+    - generic [ref=e34]:
+      - generic [ref=e35]:
+        - heading "The AI-Native CRM That Thinks" [level=1] [ref=e36]:
+          - text: The AI-Native
+          - text: CRM That Thinks
+        - paragraph [ref=e37]: QuantixOne is a smarter, lighter platform built AI-first to automate everything from lead capture to client delivery.
+        - generic [ref=e38]:
+          - button "Watch Demo" [ref=e39] [cursor=pointer]:
+            - generic [ref=e40]:
+              - img [ref=e42]
+              - text: Watch Demo
+          - button "Schedule Call" [ref=e45] [cursor=pointer]
+        - generic [ref=e46]:
+          - generic [ref=e47]:
+            - img [ref=e48]
+            - text: 14-day free trial
+          - generic [ref=e51]:
+            - img [ref=e52]
+            - text: No credit card required
+      - generic [ref=e56]:
+        - generic [ref=e57]:
+          - img [ref=e60]
+          - img [ref=e70] [cursor=pointer]
+          - img [ref=e80] [cursor=pointer]
+          - img [ref=e84] [cursor=pointer]
+          - img [ref=e93] [cursor=pointer]
+          - img [ref=e100] [cursor=pointer]
+          - img [ref=e104] [cursor=pointer]
+        - generic [ref=e114]:
+          - generic [ref=e115]:
+            - img [ref=e117]
+            - img [ref=e122]
+            - img [ref=e125]
+          - generic [ref=e129]:
+            - heading "Smart CRM" [level=2] [ref=e130]
+            - paragraph [ref=e131]: AI-powered customer relationship management
+        - generic [ref=e132]:
+          - button "View Smart CRM" [ref=e133] [cursor=pointer]
+          - button "View AI Automation" [ref=e135] [cursor=pointer]
+          - button "View AI Agents" [ref=e137] [cursor=pointer]
+          - button "View Smart Booking" [ref=e139] [cursor=pointer]
+          - button "View Conversations" [ref=e141] [cursor=pointer]
+          - button "View Smart Analytics" [ref=e143] [cursor=pointer]
+    - generic [ref=e147]:
+      - generic [ref=e148]:
+        - heading "See QuantixOne In Action" [level=2] [ref=e149]
+        - paragraph [ref=e150]: Experience the power of AI-native automation with real platform screenshots and interactive demos.
+      - generic [ref=e151]:
+        - generic [ref=e152]:
+          - generic [ref=e154]:
+            - img [ref=e156]
+            - generic [ref=e161]:
+              - heading "Smart Pipeline View" [level=3] [ref=e162]
+              - paragraph [ref=e163]: AI-powered pipeline management that automatically scores leads and suggests next actions.
+          - generic [ref=e164]:
+            - button "Previous slide" [ref=e165] [cursor=pointer]:
+              - img [ref=e166]
+            - generic [ref=e168]:
+              - button "Go to slide 1" [ref=e169] [cursor=pointer]
+              - button "Go to slide 2" [ref=e171] [cursor=pointer]
+              - button "Go to slide 3" [ref=e173] [cursor=pointer]
+              - button "Go to slide 4" [ref=e175] [cursor=pointer]
+            - button "Next slide" [ref=e177] [cursor=pointer]:
+              - img [ref=e178]
+            - button "Pause auto-play" [ref=e180] [cursor=pointer]:
+              - img [ref=e181]
+          - generic [ref=e183]:
+            - heading "Key Features:" [level=4] [ref=e184]
+            - list [ref=e185]:
+              - listitem [ref=e186]: Real-time AI processing and insights
+              - listitem [ref=e188]: Drag-and-drop visual interface
+              - listitem [ref=e190]: Automated workflow triggers
+              - listitem [ref=e192]: Advanced analytics and reporting
+        - generic [ref=e197]:
+          - heading "Sales Pipeline" [level=3] [ref=e199]
+          - generic [ref=e204]:
+            - generic [ref=e205]:
+              - generic [ref=e206]:
+                - heading "Leads" [level=4] [ref=e207]
+                - generic [ref=e208]: $12k
+              - generic [ref=e209]:
+                - generic [ref=e210]:
+                  - generic [ref=e211]: Acme Corp
+                  - generic [ref=e212]: $5000
+                  - generic [ref=e216]: "AI Score: 95%"
+                - generic [ref=e217]:
+                  - generic [ref=e218]: TechStart
+                  - generic [ref=e219]: $3000
+                  - generic [ref=e223]: "AI Score: 87%"
+                - generic [ref=e224]:
+                  - generic [ref=e225]: BigCorp
+                  - generic [ref=e226]: $8000
+                  - generic [ref=e230]: "AI Score: 92%"
+                - generic [ref=e231]:
+                  - generic [ref=e232]: StartupXYZ
+                  - generic [ref=e233]: $2000
+                  - generic [ref=e237]: "AI Score: 78%"
+            - generic [ref=e238]:
+              - generic [ref=e239]:
+                - heading "Qualified" [level=4] [ref=e240]
+                - generic [ref=e241]: $8k
+              - generic [ref=e242]:
+                - generic [ref=e243]:
+                  - generic [ref=e244]: Acme Corp
+                  - generic [ref=e245]: $5000
+                  - generic [ref=e249]: "AI Score: 95%"
+                - generic [ref=e250]:
+                  - generic [ref=e251]: TechStart
+                  - generic [ref=e252]: $3000
+                  - generic [ref=e256]: "AI Score: 87%"
+                - generic [ref=e257]:
+                  - generic [ref=e258]: BigCorp
+                  - generic [ref=e259]: $8000
+                  - generic [ref=e263]: "AI Score: 92%"
+            - generic [ref=e264]:
+              - generic [ref=e265]:
+                - heading "Proposal" [level=4] [ref=e266]
+                - generic [ref=e267]: $5k
+              - generic [ref=e268]:
+                - generic [ref=e269]:
+                  - generic [ref=e270]: Acme Corp
+                  - generic [ref=e271]: $5000
+                  - generic [ref=e275]: "AI Score: 95%"
+                - generic [ref=e276]:
+                  - generic [ref=e277]: TechStart
+                  - generic [ref=e278]: $3000
+                  - generic [ref=e282]: "AI Score: 87%"
+            - generic [ref=e283]:
+              - generic [ref=e284]:
+                - heading "Closed" [level=4] [ref=e285]
+                - generic [ref=e286]: $3k
+              - generic [ref=e288]:
+                - generic [ref=e289]: Acme Corp
+                - generic [ref=e290]: $5000
+                - generic [ref=e294]: "AI Score: 95%"
+    - generic [ref=e299]:
+      - generic [ref=e300]:
+        - heading "Meet Your AI Agents" [level=2] [ref=e301]
+        - paragraph [ref=e302]: Watch our AI agents in action. They work 24/7 to generate leads, build pages, score prospects, and book appointments automatically.
+      - generic [ref=e303]:
+        - generic [ref=e304]:
+          - generic [ref=e305]:
+            - img [ref=e307]
+            - generic [ref=e309]:
+              - heading "AI Reply Assistant" [level=3] [ref=e310]
+              - paragraph [ref=e311]: Responds to leads instantly with personalized, human-like messages that convert.
+          - generic [ref=e313]:
+            - generic [ref=e314]:
+              - heading "AI Reply Assistant" [level=4] [ref=e315]
+              - button "Pause demo" [ref=e316] [cursor=pointer]:
+                - img [ref=e317]
+            - generic [ref=e322]:
+              - paragraph [ref=e323]: Hi! I'm interested in your marketing services. What packages do you offer?
+              - generic [ref=e325]: 2:34 PM
+          - generic [ref=e326]:
+            - generic [ref=e327]:
+              - img [ref=e328]
+              - generic [ref=e331]: Instant lead response (under 30 seconds)
+            - generic [ref=e332]:
+              - img [ref=e333]
+              - generic [ref=e336]: Personalized messaging based on lead source
+            - generic [ref=e337]:
+              - img [ref=e338]
+              - generic [ref=e341]: Natural language processing for context
+            - generic [ref=e342]:
+              - img [ref=e343]
+              - generic [ref=e346]: Automatic follow-up sequences
+        - generic [ref=e347]:
+          - generic [ref=e348]:
+            - img [ref=e350]
+            - generic [ref=e359]:
+              - heading "AI Page Builder" [level=3] [ref=e360]
+              - paragraph [ref=e361]: Builds high-converting landing pages automatically using industry best practices.
+          - generic [ref=e363]:
+            - generic [ref=e364]:
+              - heading "AI Page Builder" [level=4] [ref=e365]
+              - button "Restart Demo" [ref=e366] [cursor=pointer]
+            - generic [ref=e367]:
+              - generic [ref=e371]:
+                - generic [ref=e372]:
+                  - generic [ref=e373]: Analyzing Business
+                  - generic [ref=e374]: 20%
+                - paragraph [ref=e375]: AI studying your industry and competitors
+              - generic [ref=e378]:
+                - generic [ref=e380]: "2"
+                - generic [ref=e381]:
+                  - generic [ref=e382]:
+                    - generic [ref=e383]: Generating Copy
+                    - generic [ref=e384]: 0%
+                  - paragraph [ref=e385]: Creating compelling headlines and content
+              - generic [ref=e386]:
+                - generic [ref=e388]: "3"
+                - generic [ref=e389]:
+                  - generic [ref=e390]:
+                    - generic [ref=e391]: Designing Layout
+                    - generic [ref=e392]: 0%
+                  - paragraph [ref=e393]: Building responsive page structure
+              - generic [ref=e394]:
+                - generic [ref=e396]: "4"
+                - generic [ref=e397]:
+                  - generic [ref=e398]:
+                    - generic [ref=e399]: Optimizing Conversion
+                    - generic [ref=e400]: 0%
+                  - paragraph [ref=e401]: Adding proven conversion elements
+              - generic [ref=e402]:
+                - generic [ref=e404]: "5"
+                - generic [ref=e405]:
+                  - generic [ref=e406]:
+                    - generic [ref=e407]: Page Complete
+                    - generic [ref=e408]: 0%
+                  - paragraph [ref=e409]: Landing page ready for launch
+          - generic [ref=e410]:
+            - generic [ref=e411]:
+              - img [ref=e412]
+              - generic [ref=e415]: Industry-specific page templates
+            - generic [ref=e416]:
+              - img [ref=e417]
+              - generic [ref=e420]: AI-generated compelling copy
+            - generic [ref=e421]:
+              - img [ref=e422]
+              - generic [ref=e425]: Conversion-optimized layouts
+            - generic [ref=e426]:
+              - img [ref=e427]
+              - generic [ref=e430]: Mobile-responsive design
+        - generic [ref=e431]:
+          - generic [ref=e432]:
+            - img [ref=e434]
+            - generic [ref=e438]:
+              - heading "Lead Scoring Engine" [level=3] [ref=e439]
+              - paragraph [ref=e440]: Automatically scores and prioritizes leads using advanced AI algorithms.
+          - generic [ref=e442]:
+            - generic [ref=e443]:
+              - heading "Lead Scoring Engine" [level=4] [ref=e444]
+              - generic [ref=e445]: Real-time Analysis
+            - generic [ref=e446]:
+              - generic [ref=e447] [cursor=pointer]:
+                - generic [ref=e448]:
+                  - generic [ref=e449]:
+                    - heading "Sarah Johnson" [level=5] [ref=e450]
+                    - paragraph [ref=e451]: TechStart Inc
+                  - generic [ref=e452]:
+                    - generic [ref=e453]: "95"
+                    - generic [ref=e454]: Hot Lead
+                - generic [ref=e455]:
+                  - paragraph [ref=e456]: "AI Scoring Factors:"
+                  - generic [ref=e457]:
+                    - generic [ref=e460]: Visited pricing page 3x
+                    - generic [ref=e463]: Downloaded whitepaper
+                    - generic [ref=e466]: CEO title
+                    - generic [ref=e469]: "Company size: 50-200"
+              - generic [ref=e471] [cursor=pointer]:
+                - generic [ref=e472]:
+                  - heading "Mike Chen" [level=5] [ref=e473]
+                  - paragraph [ref=e474]: Growth Co
+                - generic [ref=e475]:
+                  - generic [ref=e476]: "78"
+                  - generic [ref=e477]: Warm Lead
+              - generic [ref=e479] [cursor=pointer]:
+                - generic [ref=e480]:
+                  - heading "Lisa Brown" [level=5] [ref=e481]
+                  - paragraph [ref=e482]: Small Biz
+                - generic [ref=e483]:
+                  - generic [ref=e484]: "42"
+                  - generic [ref=e485]: Cold Lead
+          - generic [ref=e486]:
+            - generic [ref=e487]:
+              - img [ref=e488]
+              - generic [ref=e491]: Real-time lead scoring
+            - generic [ref=e492]:
+              - img [ref=e493]
+              - generic [ref=e496]: Behavioral analysis
+            - generic [ref=e497]:
+              - img [ref=e498]
+              - generic [ref=e501]: Predictive conversion probability
+            - generic [ref=e502]:
+              - img [ref=e503]
+              - generic [ref=e506]: Automated lead routing
+        - generic [ref=e507]:
+          - generic [ref=e508]:
+            - img [ref=e510]
+            - generic [ref=e515]:
+              - heading "Smart Appointment Booking" [level=3] [ref=e516]
+              - paragraph [ref=e517]: AI handles the entire booking process from initial interest to confirmed meeting.
+          - generic [ref=e519]:
+            - generic [ref=e520]:
+              - heading "Smart Appointment Booking" [level=4] [ref=e521]
+              - img [ref=e522]
+            - generic [ref=e527]:
+              - generic [ref=e528]:
+                - generic [ref=e531]: Lead expresses interest
+                - img [ref=e533]
+              - generic [ref=e536]:
+                - generic [ref=e538]: "2"
+                - generic [ref=e539]: AI analyzes calendar availability
+              - generic [ref=e540]:
+                - generic [ref=e542]: "3"
+                - generic [ref=e543]: AI suggests optimal meeting times
+              - generic [ref=e544]:
+                - generic [ref=e546]: "4"
+                - generic [ref=e547]: Automated booking confirmation
+              - generic [ref=e548]:
+                - generic [ref=e550]: "5"
+                - generic [ref=e551]: Pre-meeting prep sent
+            - generic [ref=e552]:
+              - generic [ref=e553]:
+                - generic [ref=e554]: Meeting Booked
+                - generic [ref=e555]: Tomorrow 2:00 PM
+              - paragraph [ref=e556]: Prep materials sent automatically
+          - generic [ref=e557]:
+            - generic [ref=e558]:
+              - img [ref=e559]
+              - generic [ref=e562]: Intelligent calendar optimization
+            - generic [ref=e563]:
+              - img [ref=e564]
+              - generic [ref=e567]: Automated booking confirmations
+            - generic [ref=e568]:
+              - img [ref=e569]
+              - generic [ref=e572]: Pre-meeting preparation
+            - generic [ref=e573]:
+              - img [ref=e574]
+              - generic [ref=e577]: Timezone handling
+    - generic [ref=e580]:
+      - generic [ref=e581]:
+        - heading "The QuantixOne Workflow" [level=2] [ref=e582]
+        - paragraph [ref=e583]: Our AI-powered workflow takes prospects from first contact to loyal customers automatically.
+      - generic [ref=e584]:
+        - generic [ref=e585]:
+          - generic [ref=e586]:
+            - img [ref=e588]
+            - generic [ref=e592]: "1"
+          - generic [ref=e593]:
+            - heading "Capture" [level=3] [ref=e594]
+            - paragraph [ref=e595]: AI-powered lead magnets and forms automatically capture and qualify prospects with intelligent scoring.
+        - generic [ref=e596]:
+          - generic [ref=e597]:
+            - img [ref=e599]
+            - generic [ref=e601]: "2"
+          - generic [ref=e602]:
+            - heading "Nurture" [level=3] [ref=e603]
+            - paragraph [ref=e604]: Smart email sequences and personalized content nurture leads based on behavior and preferences.
+        - generic [ref=e605]:
+          - generic [ref=e606]:
+            - img [ref=e608]
+            - generic [ref=e610]: "3"
+          - generic [ref=e611]:
+            - heading "Close" [level=3] [ref=e612]
+            - paragraph [ref=e613]: AI sales assistants help close deals with predictive insights and automated follow-ups.
+        - generic [ref=e614]:
+          - generic [ref=e615]:
+            - img [ref=e617]
+            - generic [ref=e620]: "4"
+          - generic [ref=e621]:
+            - heading "Deliver" [level=3] [ref=e622]
+            - paragraph [ref=e623]: Automated project management and client portals ensure seamless service delivery.
+        - generic [ref=e624]:
+          - generic [ref=e625]:
+            - img [ref=e627]
+            - generic [ref=e632]: "5"
+          - generic [ref=e633]:
+            - heading "Scale" [level=3] [ref=e634]
+            - paragraph [ref=e635]: AI analytics identify growth opportunities and automate scaling processes across your business.
+    - generic [ref=e637]:
+      - generic [ref=e638]:
+        - heading "What Our Clients Say" [level=2] [ref=e639]
+        - paragraph [ref=e640]: Real results from real agencies using QuantixOne to scale their business with AI.
+      - generic [ref=e641]:
+        - generic [ref=e642]:
+          - img [ref=e644]
+          - generic [ref=e647]:
+            - img "Sarah Johnson" [ref=e648]
+            - generic [ref=e649]:
+              - heading "Sarah Johnson" [level=3] [ref=e650]
+              - paragraph [ref=e651]: Founder & CEO
+              - paragraph [ref=e652]: Digital Growth Agency
+              - paragraph [ref=e653]: Marketing Agency
+          - generic [ref=e654]:
+            - img [ref=e655]
+            - img [ref=e657]
+            - img [ref=e659]
+            - img [ref=e661]
+            - img [ref=e663]
+          - blockquote [ref=e665]: "\"QuantixOne's AI has completely transformed how we handle leads. Our response time went from hours to seconds, and our conversion rate increased by 340%. The AI literally works while we sleep.\""
+        - generic [ref=e666]:
+          - img [ref=e668]
+          - generic [ref=e671]:
+            - img "Marcus Chen" [ref=e672]
+            - generic [ref=e673]:
+              - heading "Marcus Chen" [level=3] [ref=e674]
+              - paragraph [ref=e675]: Agency Owner
+              - paragraph [ref=e676]: Scale Digital
+              - paragraph [ref=e677]: Performance Marketing
+          - generic [ref=e678]:
+            - img [ref=e679]
+            - img [ref=e681]
+            - img [ref=e683]
+            - img [ref=e685]
+            - img [ref=e687]
+          - blockquote [ref=e689]: "\"The white-label capabilities are incredible. We've built our entire SaaS offering on QuantixOne's platform. Our clients think it's our proprietary technology, and we're generating $50K+ MRR.\""
+        - generic [ref=e690]:
+          - img [ref=e692]
+          - generic [ref=e695]:
+            - img "Emily Rodriguez" [ref=e696]
+            - generic [ref=e697]:
+              - heading "Emily Rodriguez" [level=3] [ref=e698]
+              - paragraph [ref=e699]: Marketing Director
+              - paragraph [ref=e700]: TechStart Solutions
+              - paragraph [ref=e701]: B2B SaaS
+          - generic [ref=e702]:
+            - img [ref=e703]
+            - img [ref=e705]
+            - img [ref=e707]
+            - img [ref=e709]
+            - img [ref=e711]
+          - blockquote [ref=e713]: "\"Moving from GoHighLevel to QuantixOne was the best decision we made this year. The AI features actually work, and the interface is so much cleaner. Our team productivity doubled overnight.\""
+    - generic [ref=e716]:
+      - generic [ref=e717]:
+        - heading "Success Stories" [level=2] [ref=e718]
+        - paragraph [ref=e719]: See how agencies transformed their operations and achieved remarkable growth with QuantixOne.
+      - generic [ref=e720]:
+        - generic [ref=e721]:
+          - generic [ref=e722]:
+            - generic [ref=e723]:
+              - generic [ref=e725]: DMP
+              - generic [ref=e726]:
+                - heading "Digital Marketing Pro" [level=3] [ref=e727]
+                - paragraph [ref=e728]: Marketing Agency
+            - button "View Digital Marketing Pro case study" [ref=e729] [cursor=pointer]:
+              - img [ref=e730]
+          - generic [ref=e733]:
+            - generic [ref=e734]:
+              - heading "The Challenge" [level=4] [ref=e735]
+              - paragraph [ref=e736]: Struggling to scale beyond 50 clients due to manual processes and poor lead response times. Losing 60% of leads due to delayed follow-ups.
+            - generic [ref=e737]:
+              - heading "How QuantixOne Helped" [level=4] [ref=e738]
+              - paragraph [ref=e739]: Implemented QuantixOne's AI agents for instant lead response, automated funnel building, and white-label client portals. Set up smart workflows for client onboarding and project management.
+          - generic [ref=e740]:
+            - heading "Impact Results" [level=4] [ref=e741]
+            - generic [ref=e742]:
+              - generic [ref=e743]:
+                - img [ref=e745]
+                - generic [ref=e747]: 30 sec
+                - generic [ref=e748]: Lead Response Time
+              - generic [ref=e749]:
+                - img [ref=e751]
+                - generic [ref=e756]: 200+
+                - generic [ref=e757]: Client Capacity
+              - generic [ref=e758]:
+                - img [ref=e760]
+                - generic [ref=e763]: 400%
+                - generic [ref=e764]: Revenue Growth
+        - generic [ref=e765]:
+          - generic [ref=e766]:
+            - generic [ref=e767]:
+              - generic [ref=e769]: ECE
+              - generic [ref=e770]:
+                - heading "E-commerce Empire" [level=3] [ref=e771]
+                - paragraph [ref=e772]: E-commerce
+            - button "View E-commerce Empire case study" [ref=e773] [cursor=pointer]:
+              - img [ref=e774]
+          - generic [ref=e777]:
+            - generic [ref=e778]:
+              - heading "The Challenge" [level=4] [ref=e779]
+              - paragraph [ref=e780]: Managing multiple product launches with complex funnels. Spending 40+ hours per week on manual campaign setup and optimization.
+            - generic [ref=e781]:
+              - heading "How QuantixOne Helped" [level=4] [ref=e782]
+              - paragraph [ref=e783]: Leveraged AI funnel builder for rapid campaign deployment, automated email sequences for product launches, and smart analytics for optimization insights.
+          - generic [ref=e784]:
+            - heading "Impact Results" [level=4] [ref=e785]
+            - generic [ref=e786]:
+              - generic [ref=e787]:
+                - img [ref=e789]
+                - generic [ref=e791]: 90% faster
+                - generic [ref=e792]: Campaign Setup Time
+              - generic [ref=e793]:
+                - img [ref=e795]
+                - generic [ref=e799]: +180%
+                - generic [ref=e800]: Conversion Rate
+              - generic [ref=e801]:
+                - img [ref=e803]
+                - generic [ref=e808]: 35 hrs/week
+                - generic [ref=e809]: Time Saved
+    - generic [ref=e811]:
+      - generic [ref=e812]:
+        - heading "How QuantixOne Compares" [level=2] [ref=e813]
+        - paragraph [ref=e814]: See why agencies are switching from GoHighLevel, ClickFunnels, and other platforms to QuantixOne's AI-native approach.
+      - generic [ref=e815]:
+        - generic [ref=e816]:
+          - generic [ref=e817]:
+            - generic [ref=e818]: Features
+            - generic [ref=e819]:
+              - img "QuantixOne Logo" [ref=e823]
+              - generic [ref=e824]: QuantixOne
+            - generic [ref=e825]:
+              - img "GoHighLevel" [ref=e827]
+              - generic [ref=e828]: GoHighLevel
+            - generic [ref=e829]:
+              - img "ClickFunnels" [ref=e831]
+              - generic [ref=e832]: ClickFunnels
+            - generic [ref=e833]:
+              - img "Calendly" [ref=e835]
+              - generic [ref=e836]: Calendly
+            - generic [ref=e837]:
+              - img "HubSpot" [ref=e839]
+              - generic [ref=e840]: HubSpot
+          - generic [ref=e841]:
+            - heading "AI-Powered Features" [level=3] [ref=e843]
+            - generic [ref=e844]:
+              - generic [ref=e845]: AI Auto-Build Funnels
+              - img [ref=e847]
+              - img [ref=e851]
+              - img [ref=e855]
+              - img [ref=e859]
+              - img [ref=e863]
+            - generic [ref=e866]:
+              - generic [ref=e867]: AI Lead Response
+              - img [ref=e869]
+              - img [ref=e873]
+              - img [ref=e877]
+              - img [ref=e881]
+            - generic [ref=e887]:
+              - generic [ref=e888]: AI Email Writing
+              - img [ref=e890]
+              - img [ref=e894]
+              - img [ref=e898]
+              - img [ref=e902]
+            - generic [ref=e908]:
+              - generic [ref=e909]: Smart Auto-Tagging
+              - img [ref=e911]
+              - img [ref=e918]
+              - img [ref=e922]
+            - generic [ref=e928]:
+              - generic [ref=e929]: Predictive Analytics
+              - img [ref=e931]
+              - img [ref=e935]
+              - img [ref=e939]
+              - img [ref=e943]
+              - img [ref=e947]
+          - generic [ref=e950]:
+            - heading "Core CRM & Sales" [level=3] [ref=e952]
+            - generic [ref=e953]:
+              - generic [ref=e954]: Contact Management
+              - img [ref=e956]
+              - img [ref=e960]
+              - img [ref=e970]
+            - generic [ref=e973]:
+              - generic [ref=e974]: Pipeline Management
+              - img [ref=e976]
+              - img [ref=e980]
+              - img [ref=e984]
+              - img [ref=e988]
+              - img [ref=e992]
+            - generic [ref=e995]:
+              - generic [ref=e996]: Lead Scoring
+              - img [ref=e998]
+              - img [ref=e1005]
+              - img [ref=e1009]
+              - img [ref=e1013]
+            - generic [ref=e1016]:
+              - generic [ref=e1017]: Email Marketing
+              - img [ref=e1019]
+              - img [ref=e1023]
+              - img [ref=e1027]
+              - img [ref=e1031]
+              - img [ref=e1035]
+            - generic [ref=e1038]:
+              - generic [ref=e1039]: SMS Marketing
+              - img [ref=e1041]
+              - img [ref=e1045]
+              - img [ref=e1049]
+              - img [ref=e1053]
+          - generic [ref=e1059]:
+            - heading "Automation & Workflows" [level=3] [ref=e1061]
+            - generic [ref=e1062]:
+              - generic [ref=e1063]: Visual Workflow Builder
+              - img [ref=e1065]
+              - img [ref=e1069]
+              - img [ref=e1076]
+              - img [ref=e1080]
+            - generic [ref=e1083]:
+              - generic [ref=e1084]: Multi-Channel Sequences
+              - img [ref=e1086]
+              - img [ref=e1090]
+              - img [ref=e1097]
+              - img [ref=e1101]
+            - generic [ref=e1104]:
+              - generic [ref=e1105]: Trigger-Based Actions
+              - img [ref=e1107]
+              - img [ref=e1111]
+              - img [ref=e1121]
+            - generic [ref=e1124]:
+              - generic [ref=e1125]: A/B Testing
+              - img [ref=e1127]
+              - img [ref=e1134]
+              - img [ref=e1138]
+              - img [ref=e1142]
+            - generic [ref=e1145]:
+              - generic [ref=e1146]: Smart Scheduling
+              - img [ref=e1148]
+              - img [ref=e1155]
+              - img [ref=e1159]
+          - generic [ref=e1165]:
+            - heading "Business Tools" [level=3] [ref=e1167]
+            - generic [ref=e1168]:
+              - generic [ref=e1169]: Funnel Builder
+              - img [ref=e1171]
+              - img [ref=e1175]
+              - img [ref=e1179]
+              - img [ref=e1183]
+            - generic [ref=e1189]:
+              - generic [ref=e1190]: Website Builder
+              - img [ref=e1192]
+              - img [ref=e1196]
+              - img [ref=e1203]
+              - img [ref=e1207]
+            - generic [ref=e1210]:
+              - generic [ref=e1211]: Membership Sites
+              - img [ref=e1213]
+              - img [ref=e1217]
+              - img [ref=e1221]
+              - img [ref=e1225]
+              - img [ref=e1229]
+            - generic [ref=e1232]:
+              - generic [ref=e1233]: E-commerce
+              - img [ref=e1235]
+              - img [ref=e1242]
+              - img [ref=e1246]
+            - generic [ref=e1252]:
+              - generic [ref=e1253]: Invoicing & Payments
+              - img [ref=e1255]
+              - img [ref=e1259]
+              - img [ref=e1266]
+          - generic [ref=e1272]:
+            - heading "White Label & SaaS" [level=3] [ref=e1274]
+            - generic [ref=e1275]:
+              - generic [ref=e1276]: White Label Platform
+              - img [ref=e1278]
+              - img [ref=e1282]
+              - img [ref=e1286]
+              - img [ref=e1290]
+              - img [ref=e1294]
+            - generic [ref=e1297]:
+              - generic [ref=e1298]: Client Sub-Accounts
+              - img [ref=e1300]
+              - img [ref=e1304]
+              - img [ref=e1308]
+              - img [ref=e1312]
+            - generic [ref=e1318]:
+              - generic [ref=e1319]: SaaS Mode
+              - img [ref=e1321]
+              - img [ref=e1328]
+              - img [ref=e1332]
+              - img [ref=e1336]
+            - generic [ref=e1339]:
+              - generic [ref=e1340]: Custom Branding
+              - img [ref=e1342]
+              - img [ref=e1346]
+              - img [ref=e1350]
+            - generic [ref=e1359]:
+              - generic [ref=e1360]: Revenue Sharing
+              - img [ref=e1362]
+              - img [ref=e1369]
+              - img [ref=e1373]
+              - img [ref=e1377]
+        - generic [ref=e1380]:
+          - generic [ref=e1381]:
+            - img [ref=e1382]
+            - generic [ref=e1385]: Full Feature
+          - generic [ref=e1389]: Partial/Limited
+          - generic [ref=e1390]:
+            - img [ref=e1391]
+            - generic [ref=e1394]: Not Available
+    - generic [ref=e1402]:
+      - generic [ref=e1403]:
+        - generic [ref=e1404]:
+          - img [ref=e1406]
+          - generic [ref=e1410]:
+            - heading "Learning Hub" [level=2] [ref=e1411]
+            - paragraph [ref=e1412]: Master QuantixOne and scale your agency
+        - paragraph [ref=e1413]: Get your team up to speed fast with our comprehensive training resources. From beginner tutorials to advanced automation strategies.
+        - generic [ref=e1414]:
+          - link "Train Your Team to Use QuantixOne" [ref=e1415] [cursor=pointer]:
+            - /url: /free-demo
+            - text: Train Your Team to Use QuantixOne
+            - img [ref=e1416]
+          - button "Browse Resources" [ref=e1419] [cursor=pointer]
+        - generic [ref=e1420]:
+          - heading "Popular Categories" [level=3] [ref=e1421]
+          - generic [ref=e1422]:
+            - button "Agency Scaling (24)" [ref=e1423] [cursor=pointer]
+            - button "AI in Marketing (18)" [ref=e1424] [cursor=pointer]
+            - button "Funnels (32)" [ref=e1425] [cursor=pointer]
+            - button "Automation (15)" [ref=e1426] [cursor=pointer]
+            - button "White Label (12)" [ref=e1427] [cursor=pointer]
+            - button "SaaS Mode (8)" [ref=e1428] [cursor=pointer]
+      - generic [ref=e1429]:
+        - generic [ref=e1430] [cursor=pointer]:
+          - img [ref=e1432]
+          - heading "Video Tutorials" [level=3] [ref=e1434]
+          - paragraph [ref=e1435]: Step-by-step guides for every feature
+          - generic [ref=e1436]: 50+ videos
+        - generic [ref=e1437] [cursor=pointer]:
+          - img [ref=e1439]
+          - heading "Documentation" [level=3] [ref=e1442]
+          - paragraph [ref=e1443]: Complete platform documentation
+          - generic [ref=e1444]: 200+ articles
+        - generic [ref=e1445] [cursor=pointer]:
+          - img [ref=e1447]
+          - heading "Templates" [level=3] [ref=e1451]
+          - paragraph [ref=e1452]: Ready-to-use automation templates
+          - generic [ref=e1453]: 100+ templates
+        - generic [ref=e1454] [cursor=pointer]:
+          - img [ref=e1456]
+          - heading "Community" [level=3] [ref=e1461]
+          - paragraph [ref=e1462]: Connect with other QuantixOne users
+          - generic [ref=e1463]: 5K+ members
+    - generic [ref=e1466]:
+      - generic [ref=e1467]:
+        - heading "White Label Everything" [level=2] [ref=e1468]
+        - paragraph [ref=e1469]: Resell QuantixOne under your own brand. Complete customization, your logo, your domain, your pricing.
+        - generic [ref=e1470]:
+          - generic [ref=e1471]:
+            - img [ref=e1472]
+            - generic [ref=e1475]: Custom branding & domain
+          - generic [ref=e1476]:
+            - img [ref=e1477]
+            - generic [ref=e1480]: Your logo & color scheme
+          - generic [ref=e1481]:
+            - img [ref=e1482]
+            - generic [ref=e1485]: Set your own pricing
+          - generic [ref=e1486]:
+            - img [ref=e1487]
+            - generic [ref=e1490]: Client management dashboard
+          - generic [ref=e1491]:
+            - img [ref=e1492]
+            - generic [ref=e1495]: Revenue sharing program
+        - link "Start White Label Program" [ref=e1496] [cursor=pointer]:
+          - /url: /free-demo
+      - generic [ref=e1497]:
+        - generic [ref=e1498]:
+          - img [ref=e1499]
+          - heading "Agency Partner" [level=3] [ref=e1502]
+          - paragraph [ref=e1503]: Complete white-label solution
+        - generic [ref=e1504]:
+          - generic [ref=e1505]:
+            - generic [ref=e1506]: Revenue Share
+            - generic [ref=e1507]: Up to 60%
+          - generic [ref=e1508]:
+            - generic [ref=e1509]: Setup Fee
+            - generic [ref=e1510]: $0
+          - generic [ref=e1511]:
+            - generic [ref=e1512]: Monthly Minimum
+            - generic [ref=e1513]: $297
+    - generic [ref=e1517]:
+      - generic [ref=e1518]:
+        - img [ref=e1519]
+        - heading "SaaS Mode Features" [level=3] [ref=e1522]
+        - generic [ref=e1523]:
+          - generic [ref=e1526]: Auto-billing & invoicing
+          - generic [ref=e1529]: Client workspace management
+          - generic [ref=e1532]: One-click deployments
+          - generic [ref=e1535]: Usage analytics & reporting
+          - generic [ref=e1538]: Automated onboarding
+          - generic [ref=e1541]: Support ticket system
+      - generic [ref=e1542]:
+        - heading "SaaS Mode Enabled" [level=2] [ref=e1543]
+        - paragraph [ref=e1544]: Transform your agency into a SaaS business. Auto-bill clients, manage workspaces, and deploy solutions with one click.
+        - generic [ref=e1545]:
+          - heading "💡 Pro Tip" [level=3] [ref=e1546]
+          - paragraph [ref=e1547]: Most agencies using SaaS mode see 3x revenue growth within 6 months by offering recurring software solutions to their clients.
+        - link "Enable SaaS Mode" [ref=e1548] [cursor=pointer]:
+          - /url: /free-demo
+    - generic [ref=e1550]:
+      - generic [ref=e1551]:
+        - heading "Why AI-Native Matters" [level=2] [ref=e1552]
+        - paragraph [ref=e1553]: While others bolt on AI features, QuantixOne is built from the ground up with AI at its core.
+      - generic [ref=e1554]:
+        - generic [ref=e1555]:
+          - img [ref=e1557]
+          - heading "Auto-Build Funnels" [level=3] [ref=e1566]
+          - paragraph [ref=e1567]: AI analyzes your business and builds optimized funnels in minutes, not hours.
+        - generic [ref=e1568]:
+          - img [ref=e1570]
+          - heading "Smart Lead Response" [level=3] [ref=e1580]
+          - paragraph [ref=e1581]: AI responds to leads instantly with personalized messages that convert.
+        - generic [ref=e1582]:
+          - img [ref=e1584]
+          - heading "Write Perfect Emails" [level=3] [ref=e1587]
+          - paragraph [ref=e1588]: AI crafts compelling email sequences based on your audience and goals.
+        - generic [ref=e1589]:
+          - img [ref=e1591]
+          - heading "Auto-Tag Everything" [level=3] [ref=e1594]
+          - paragraph [ref=e1595]: AI automatically tags and segments contacts based on behavior and interactions.
+    - generic [ref=e1598]:
+      - generic [ref=e1599]:
+        - heading "Frequently Asked Questions" [level=3] [ref=e1600]
+        - paragraph [ref=e1601]: Everything you need to know about QuantixOne platform
+      - generic [ref=e1603]:
+        - generic [ref=e1604]:
+          - heading "What is QuantixOne and how does it work?" [level=3] [ref=e1605]:
+            - button "What is QuantixOne and how does it work?" [ref=e1606] [cursor=pointer]:
+              - generic [ref=e1607]: What is QuantixOne and how does it work?
+              - img [ref=e1608]
+          - generic [ref=e1611]: QuantixOne is an AI-native platform that combines advanced artificial intelligence with comprehensive business solutions. Our platform leverages machine learning, natural language processing, and automation to help businesses optimize their operations, make data-driven decisions, and accelerate growth. It works by integrating seamlessly with your existing systems to provide intelligent insights and automated workflows.
+        - generic [ref=e1612]:
+          - heading "What can the AI agents do for my business?" [level=3] [ref=e1613]:
+            - button "What can the AI agents do for my business?" [ref=e1614] [cursor=pointer]:
+              - generic [ref=e1615]: What can the AI agents do for my business?
+              - img [ref=e1616]
+          - generic [ref=e1619]: Our AI agents can handle a wide range of tasks including customer service automation, data analysis, lead qualification, appointment scheduling, document processing, and workflow optimization. They learn from your business processes and continuously improve their performance, helping you save time and reduce operational costs while maintaining high-quality service.
+        - generic [ref=e1620]:
+          - heading "How easy is it to integrate QuantixOne with existing systems?" [level=3] [ref=e1621]:
+            - button "How easy is it to integrate QuantixOne with existing systems?" [ref=e1622] [cursor=pointer]:
+              - generic [ref=e1623]: How easy is it to integrate QuantixOne with existing systems?
+              - img [ref=e1624]
+          - generic [ref=e1627]: QuantixOne is designed for seamless integration. Our platform offers pre-built connectors for popular business tools, REST APIs for custom integrations, and white-label solutions that can be tailored to your specific needs. Most integrations can be completed within days, not months, with minimal disruption to your existing workflows.
+        - generic [ref=e1628]:
+          - heading "How secure is my data with QuantixOne?" [level=3] [ref=e1629]:
+            - button "How secure is my data with QuantixOne?" [ref=e1630] [cursor=pointer]:
+              - generic [ref=e1631]: How secure is my data with QuantixOne?
+              - img [ref=e1632]
+          - generic [ref=e1635]: Data security is our top priority. We employ enterprise-grade security measures including end-to-end encryption, SOC 2 compliance, GDPR compliance, regular security audits, and secure data centers. Your data is protected both in transit and at rest, and we follow strict data governance policies to ensure your information remains confidential.
+        - generic [ref=e1636]:
+          - heading "How quickly can I get started with QuantixOne?" [level=3] [ref=e1637]:
+            - button "How quickly can I get started with QuantixOne?" [ref=e1638] [cursor=pointer]:
+              - generic [ref=e1639]: How quickly can I get started with QuantixOne?
+              - img [ref=e1640]
+          - generic [ref=e1643]: You can get started immediately with our free trial. The onboarding process typically takes 24-48 hours for basic setup, and our dedicated support team provides guidance throughout the implementation. Most businesses see initial results within the first week of deployment.
+    - generic [ref=e1647]:
+      - img [ref=e1648]
+      - heading "Ready to Go AI-Native?" [level=2] [ref=e1654]
+      - paragraph [ref=e1655]: Join thousands of agencies already using QuantixOne to automate their business and scale faster.
+      - generic [ref=e1656]:
+        - button "Start Free Trial" [ref=e1657] [cursor=pointer]
+        - link "Book Demo Call" [ref=e1658] [cursor=pointer]:
+          - /url: /free-demo
+      - paragraph [ref=e1659]: 14-day free trial • No credit card required • Cancel anytime
+  - contentinfo [ref=e1660]:
+    - generic [ref=e1661]:
+      - generic [ref=e1662]:
+        - generic [ref=e1663]:
+          - link "QuantixOne Logo QuantixOne" [ref=e1664] [cursor=pointer]:
+            - /url: /
+            - img "QuantixOne Logo" [ref=e1666]
+            - generic [ref=e1667]: QuantixOne
+          - paragraph [ref=e1668]: The AI-native CRM that thinks, learns, and grows with your business.
+        - generic [ref=e1669]:
+          - heading "Product" [level=3] [ref=e1670]
+          - list [ref=e1671]:
+            - listitem [ref=e1672]:
+              - link "Features" [ref=e1673] [cursor=pointer]:
+                - /url: /features
+            - listitem [ref=e1674]:
+              - link "Pricing" [ref=e1675] [cursor=pointer]:
+                - /url: /pricing
+        - generic [ref=e1676]:
+          - heading "Company" [level=3] [ref=e1677]
+          - list [ref=e1678]:
+            - listitem [ref=e1679]:
+              - link "About Us" [ref=e1680] [cursor=pointer]:
+                - /url: /aboutus
+            - listitem [ref=e1681]:
+              - link "Book a Demo" [ref=e1682] [cursor=pointer]:
+                - /url: /free-demo
+        - generic [ref=e1683]:
+          - heading "Legal" [level=3] [ref=e1684]
+          - list [ref=e1685]:
+            - listitem [ref=e1686]:
+              - link "Terms & Conditions" [ref=e1687] [cursor=pointer]:
+                - /url: /legal/terms-and-conditions
+            - listitem [ref=e1688]:
+              - link "Privacy Policy" [ref=e1689] [cursor=pointer]:
+                - /url: /legal/privacy-policy
+            - listitem [ref=e1690]:
+              - link "Refund Policy" [ref=e1691] [cursor=pointer]:
+                - /url: /legal/refund-policy
+            - listitem [ref=e1692]:
+              - link "Cookies Policy" [ref=e1693] [cursor=pointer]:
+                - /url: /legal/cookies-policy
+        - generic [ref=e1694]:
+          - heading "Support" [level=3] [ref=e1695]
+          - list [ref=e1696]:
+            - listitem [ref=e1697]:
+              - button "Help Center" [ref=e1698] [cursor=pointer]
+            - listitem [ref=e1699]:
+              - button "Documentation" [ref=e1700] [cursor=pointer]
+            - listitem [ref=e1701]:
+              - button "Community" [ref=e1702] [cursor=pointer]
+            - listitem [ref=e1703]:
+              - button "Status" [ref=e1704] [cursor=pointer]
+            - listitem [ref=e1705]:
+              - link "Sitemap" [ref=e1706] [cursor=pointer]:
+                - /url: /sitemap
+      - generic [ref=e1709]:
+        - heading "Office Address" [level=3] [ref=e1710]
+        - generic [ref=e1711]:
+          - img [ref=e1712]
+          - paragraph [ref=e1715]: 307, 7th Floor, C/o T-Hub Foundation, 1/C, 83/1, Raidurg Panmaktha, Near Hitech City, Hyderabad, Telangana, India, 500081
+      - generic [ref=e1716]:
+        - paragraph [ref=e1717]:
+          - text: © 2026 QuantixOne. All rights reserved by
+          - link "Groove Innovations Private Limited." [ref=e1718] [cursor=pointer]:
+            - /url: https://www.grooveinnovations.ai/
+        - generic [ref=e1719]:
+          - generic [ref=e1720]:
+            - link "Terms & Conditions" [ref=e1721] [cursor=pointer]:
+              - /url: /legal/terms-and-conditions
+            - text: "|"
+          - generic [ref=e1722]:
+            - link "Privacy Policy" [ref=e1723] [cursor=pointer]:
+              - /url: /legal/privacy-policy
+            - text: "|"
+          - generic [ref=e1724]:
+            - link "Refund Policy" [ref=e1725] [cursor=pointer]:
+              - /url: /legal/refund-policy
+            - text: "|"
+          - link "Cookies Policy" [ref=e1727] [cursor=pointer]:
+            - /url: /legal/cookies-policy
+  - generic [ref=e1730]:
+    - generic [ref=e1731]:
+      - generic:
+        - img
+      - generic [ref=e1732]:
+        - heading "We value your privacy" [level=3] [ref=e1733]
+        - paragraph [ref=e1734]:
+          - text: We use tracking cookies to understand how you use the product and help us improve it. Please accept cookies to help us improve.
+          - link "Learn more about our Cookies Policy" [ref=e1735] [cursor=pointer]:
+            - /url: /legal/cookies-policy
+            - text: Learn more
+    - generic [ref=e1736]:
+      - button "Decline" [ref=e1737] [cursor=pointer]
+      - button "Accept" [ref=e1738] [cursor=pointer]
+```
+
+# Test source
+
+```ts
+  1  | import { test, expect } from '@playwright/test';
+  2  | 
+  3  | const viewports = [
+  4  |   { width: 1280, height: 720 },   // laptop
+  5  |   { width: 768, height: 1024 },   // tablet
+  6  |   { width: 375, height: 667 },    // mobile
+  7  |   { width: 1440, height: 900 }    // desktop
+  8  | ];
+  9  | 
+  10 | viewports.forEach((viewport) => {
+  11 |   test(`Homepage responsive check - ${viewport.width}x${viewport.height}`, async ({ page }) => {
+  12 | 
+  13 |     await page.setViewportSize(viewport);
+  14 | 
+  15 |     await page.goto('https://quantixone.com');
+  16 | 
+  17 |     // Hero section visible
+  18 |     await expect(page.locator('h1')).toBeVisible();
+  19 | 
+  20 |     // No horizontal scroll
+  21 |     const bodyWidth = await page.evaluate(() => document.body.scrollWidth);
+  22 |     const viewportWidth = viewport.width;
+  23 | 
+> 24 |     expect(bodyWidth).toBeLessThanOrEqual(viewportWidth + 20);
+     |                       ^ Error: expect(received).toBeLessThanOrEqual(expected)
+  25 |   });
+  26 | });
+```
