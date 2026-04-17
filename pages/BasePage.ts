@@ -1,4 +1,5 @@
 import { Page } from '@playwright/test';
+import { safeGoto } from '../helpers/testHelpers';
 
 export class BasePage {
   readonly page: Page;
@@ -8,7 +9,6 @@ export class BasePage {
   }
 
   async navigate(path: string = '/') {
-    await this.page.goto(path);
-    await this.page.waitForLoadState('networkidle');
+    await safeGoto(this.page, path);
   }
 }
