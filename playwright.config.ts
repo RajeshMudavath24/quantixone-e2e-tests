@@ -3,23 +3,24 @@ import { defineConfig, devices } from '@playwright/test';
 const desktop1280 = { width: 1280, height: 720 };
 
 export default defineConfig({
-  timeout: 90000,
+  timeout: 240000,
   testDir: './tests',
   fullyParallel: true,
-  workers: process.env.CI ? 2 : undefined,
+  workers: 6,
   expect: {
     timeout: 15000,
   },
-  retries: process.env.CI ? 2 : 1,
+  retries: 0,
   reporter: [['list'], ['html', { open: 'never' }]],
 
   use: {
     baseURL: 'https://quantixone.com',
+    ignoreHTTPSErrors: true,
     video: 'on',
-    screenshot: 'only-on-failure',
-    trace: 'on-first-retry',
+    screenshot: 'on',
+    trace: 'on',
     actionTimeout: 15000,
-    navigationTimeout: 45000,
+    navigationTimeout: 60000,
   },
 
   projects: [

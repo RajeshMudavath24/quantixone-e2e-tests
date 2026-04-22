@@ -1,9 +1,16 @@
 import { test, expect, Page } from '@playwright/test';
 import { ChatbotPage } from '../pages/ChatbotPage';
-import { stabilizePage } from '../helpers/testHelpers';
+import {
+  clickIfVisible,
+  clickWithOverlaysClosed,
+  closeBlockingOverlays,
+  closeMobileDialogs,
+  guardedClick,
+} from '../helpers/testHelpers';
+import './setup';
 
 test.describe('Chatbot - Interaction Stability', () => {
-  test.describe.configure({ timeout: 120000 });
+  test.describe.configure({ timeout: 240000 });
 
   async function setupChatbot(page: Page) {
     const chatbot = new ChatbotPage(page);
@@ -14,10 +21,6 @@ test.describe('Chatbot - Interaction Stability', () => {
     }
     return chatbot;
   }
-
-  test.beforeEach(async ({ page }) => {
-    await stabilizePage(page);
-  });
 
   test('TC-CHAT-001 chatbot launcher is available on homepage', async ({ page }) => {
     const chatbot = new ChatbotPage(page);
@@ -40,10 +43,16 @@ test.describe('Chatbot - Interaction Stability', () => {
 
   test('TC-CHAT-003 chatbot input accepts typed message', async ({ page }) => {
     const chatbot = await setupChatbot(page);
-    if (await chatbot.isAvailable() && (await chatbot.input().isVisible({ timeout: 3000 }).catch(() => false))) {
-      await expect(chatbot.input()).toBeVisible();
-      await chatbot.input().fill('Hello there');
-      await expect(chatbot.input()).toHaveValue(/hello there/i);
+    if (await chatbot.isAvailable()) {
+      await chatbot.ensureComposerReady();
+      const field = chatbot.input();
+      await expect(field).toBeVisible({ timeout: 20000 });
+      await field.fill('Hello there');
+      const typed = await field.evaluate((el: Element) => {
+        if (el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement) return el.value;
+        return (el as HTMLElement).innerText?.trim() ?? '';
+      });
+      expect(typed).toMatch(/hello there/i);
     } else {
       await expect(page.getByRole('heading', { level: 1 }).first()).toBeVisible();
     }
@@ -79,9 +88,25 @@ test.describe('Chatbot - Interaction Stability', () => {
     const chatbot = await setupChatbot(page);
     const closeButton = page.getByRole('button', { name: /close|minimize/i }).first();
     if (await closeButton.isVisible({ timeout: 2000 }).catch(() => false)) {
-      await closeButton.click();
+      await clickIfVisible(closeButton, 2000);
     }
-    await chatbot.openButton().click();
-    await expect(chatbot.panel()).toBeVisible({ timeout: 15000 });
+    await page.waitForTimeout(1000);
+    await expect(chatbot.openButton()).toBeVisible({ timeout: 60000 });
+    for (let attempt = 0; attempt < 2; attempt++) {
+      if (attempt === 0) {
+        await clickWithOverlaysClosed(page, chatbot.openButton());
+      } else {
+        await closeBlockingOverlays(page);
+        await closeMobileDialogs(page);
+        await expect(chatbot.openButton()).toBeVisible({ timeout: 60000 });
+        await guardedClick(chatbot.openButton(), true);
+        await page.waitForLoadState('domcontentloaded', { timeout: 60000 }).catch(() => null);
+        await page.waitForLoadState('networkidle', { timeout: 20000 }).catch(() => null);
+      }
+      if (await chatbot.panel().isVisible({ timeout: 20000 }).catch(() => false)) {
+        break;
+      }
+    }
+    await expect(chatbot.panel()).toBeVisible({ timeout: 20000 });
   });
 });

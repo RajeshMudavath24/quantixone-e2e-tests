@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { safeGoto } from '../helpers/testHelpers';
+import './setup';
 
 test.describe('Performance, stability, and accessibility smoke', () => {
   test('TC-PERF-001 homepage has no severe console/runtime errors', async ({ page }) => {

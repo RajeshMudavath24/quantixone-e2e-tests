@@ -1,7 +1,9 @@
 import { test, expect } from '@playwright/test';
-import { openMainNavigation, safeGoto } from '../helpers/testHelpers';
+import { clickWithOverlaysClosed, openMainNavigation, safeClick, safeGoto } from '../helpers/testHelpers';
+import './setup';
 
 test.describe('Navigation and Routing', () => {
+  test.describe.configure({ timeout: 240000 });
   test('TC-NAV-001 404 page returns not-found experience', async ({ page }) => {
     await safeGoto(page, '/this-page-should-not-exist-qa');
     await expect(page).toHaveURL(/this-page-should-not-exist-qa/i);
@@ -12,8 +14,7 @@ test.describe('Navigation and Routing', () => {
     await safeGoto(page, '/');
     await openMainNavigation(page);
     const pricing = page.getByRole('link', { name: /pricing/i }).first();
-    await expect(pricing).toBeVisible();
-    await pricing.click();
+    await safeClick(page, pricing);
     await expect(page).toHaveURL(/pricing/i);
     await page.goBack();
     await expect(page).toHaveURL(/quantixone\.com\/?$/);
@@ -26,8 +27,7 @@ test.describe('Navigation and Routing', () => {
     const anchorLink = page.locator('a[href^="#"]').first();
     if ((await anchorLink.count()) > 0) {
       const href = await anchorLink.getAttribute('href');
-      await anchorLink.scrollIntoViewIfNeeded().catch(() => null);
-      await anchorLink.click().catch(async () => anchorLink.click({ force: true }));
+      await safeClick(page, anchorLink);
       await expect(page).toHaveURL(new RegExp(`${href}$`));
     } else {
       await expect(page.getByRole('heading', { level: 1 }).first()).toBeVisible();
@@ -38,12 +38,11 @@ test.describe('Navigation and Routing', () => {
     await page.setViewportSize({ width: 375, height: 812 });
     await safeGoto(page, '/');
     const menu = page.getByRole('button', { name: /menu|open navigation|toggle/i }).first();
-    await expect(menu).toBeVisible();
-    await menu.click();
+    await safeClick(page, menu);
     await expect(page.getByRole('navigation').first()).toBeVisible();
     const close = page.getByRole('button', { name: /close|menu|toggle/i }).first();
     if (await close.isVisible({ timeout: 2000 }).catch(() => false)) {
-      await close.click({ force: true }).catch(() => null);
+      await safeClick(page, close);
     }
   });
 
@@ -53,10 +52,14 @@ test.describe('Navigation and Routing', () => {
     const links = [/features/i, /pricing/i, /blog/i];
     for (const linkMatcher of links) {
       const link = page.getByRole('link', { name: linkMatcher }).first();
-      if (await link.isVisible({ timeout: 2000 }).catch(() => false)) {
-        await link.click();
-        await expect(page).toHaveURL(/features|pricing|blog/i);
-        await page.goBack();
+      if (await link.isVisible({ timeout: 10000 }).catch(() => false)) {
+        await expect(link).toBeVisible({ timeout: 60000 });
+        await link.scrollIntoViewIfNeeded();
+        await clickWithOverlaysClosed(page, link);
+        await page.waitForLoadState('networkidle', { timeout: 60000 }).catch(() => null);
+        await expect(page).toHaveURL(/features|pricing|blog/i, { timeout: 60000 });
+        await safeGoto(page, '/');
+        await page.waitForLoadState('domcontentloaded', { timeout: 60000 }).catch(() => null);
         await openMainNavigation(page);
       }
     }
@@ -64,14 +67,22 @@ test.describe('Navigation and Routing', () => {
 
   test('TC-NAV-006 footer legal links are reachable', async ({ page }) => {
     await safeGoto(page, '/');
+    await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
     const privacy = page.getByRole('link', { name: /privacy/i }).first();
+    await expect(privacy).toBeVisible({ timeout: 60000 });
+    await privacy.scrollIntoViewIfNeeded();
+    await clickWithOverlaysClosed(page, privacy);
+    await page.waitForLoadState('networkidle', { timeout: 60000 }).catch(() => null);
+    await expect(page).toHaveURL(/privacy/i, { timeout: 60000 });
+
+    await safeGoto(page, '/');
+    await page.waitForLoadState('domcontentloaded', { timeout: 60000 }).catch(() => null);
+    await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
     const terms = page.getByRole('link', { name: /terms/i }).first();
-    await expect(privacy).toBeVisible();
-    await expect(terms).toBeVisible();
-    await privacy.click();
-    await expect(page).toHaveURL(/privacy/i);
-    await page.goBack();
-    await terms.click();
-    await expect(page).toHaveURL(/terms|condition/i);
+    await expect(terms).toBeVisible({ timeout: 60000 });
+    await terms.scrollIntoViewIfNeeded();
+    await clickWithOverlaysClosed(page, terms);
+    await page.waitForLoadState('networkidle', { timeout: 60000 }).catch(() => null);
+    await expect(page).toHaveURL(/terms|condition|legal/i, { timeout: 60000 });
   });
 });

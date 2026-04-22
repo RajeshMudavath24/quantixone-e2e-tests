@@ -1,13 +1,9 @@
 import { test, expect, Page } from '@playwright/test';
 import { DemoBookingPage } from '../pages/DemoBookingPage';
-import { stabilizePage } from '../helpers/testHelpers';
+import './setup';
 
 test.describe('Demo Booking Form - Validation and Submission', () => {
-  test.describe.configure({ timeout: 120000 });
-
-  test.beforeEach(async ({ page }) => {
-    await stabilizePage(page);
-  });
+  test.describe.configure({ timeout: 240000 });
 
   async function setupForm(page: Page) {
     const booking = new DemoBookingPage(page);
@@ -48,6 +44,8 @@ test.describe('Demo Booking Form - Validation and Submission', () => {
       await booking.moveToDetails(frame);
       await booking.nameInput(frame).fill('QA Engineer');
       await booking.emailInput(frame).fill('invalid-email');
+      await expect(booking.submitButton(frame)).toBeVisible();
+      await booking.submitButton(frame).scrollIntoViewIfNeeded();
       await booking.submitButton(frame).click();
       const error = frame.getByText(/valid email|invalid|enter.*email|required/i).first();
       await expect(error).toBeVisible({ timeout: 20000 });
@@ -60,6 +58,8 @@ test.describe('Demo Booking Form - Validation and Submission', () => {
     const { booking, frame } = await setupForm(page);
     if (frame) {
       await booking.moveToDetails(frame);
+      await expect(booking.submitButton(frame)).toBeVisible();
+      await booking.submitButton(frame).scrollIntoViewIfNeeded();
       await booking.submitButton(frame).click();
       await expect(frame.getByText(/required|cannot be blank|please enter/i).first()).toBeVisible({
         timeout: 20000,
@@ -75,6 +75,8 @@ test.describe('Demo Booking Form - Validation and Submission', () => {
       await booking.moveToDetails(frame);
       await booking.nameInput(frame).fill('QA Automation');
       await booking.emailInput(frame).fill('qa.automation+quantixone@example.com');
+      await expect(booking.submitButton(frame)).toBeVisible();
+      await booking.submitButton(frame).scrollIntoViewIfNeeded();
       await booking.submitButton(frame).click();
       await expect(frame.getByText(/scheduled|confirmed|success|thanks/i).first()).toBeVisible({
         timeout: 35000,
@@ -113,6 +115,8 @@ test.describe('Demo Booking Form - Validation and Submission', () => {
       await booking.moveToDetails(frame);
       await booking.nameInput(frame).fill('QA Engineer');
       await booking.emailInput(frame).fill('qa@bad');
+      await expect(booking.submitButton(frame)).toBeVisible();
+      await booking.submitButton(frame).scrollIntoViewIfNeeded();
       await booking.submitButton(frame).click();
       const confirmation = frame.getByText(/scheduled|confirmed|you are scheduled/i).first();
       await expect(confirmation).not.toBeVisible({ timeout: 4000 });

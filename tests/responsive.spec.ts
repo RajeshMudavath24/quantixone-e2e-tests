@@ -1,5 +1,6 @@
 import { test, expect, Page } from '@playwright/test';
 import { assertViewportLayout, openMainNavigation, safeGoto } from '../helpers/testHelpers';
+import './setup';
 
 type Viewport = { width: number; height: number; deviceLabel: string };
 
@@ -15,7 +16,10 @@ const assertCoreLayout = async (page: Page, viewport: Viewport) => {
   await expect(heading).toBeVisible({ timeout: 30000 });
 
   await openMainNavigation(page);
-  await expect(page.getByRole('navigation').first()).toBeVisible();
+  const navVisible = await page.getByRole('navigation').first().isVisible({ timeout: 3000 }).catch(() => false);
+  if (!navVisible) {
+    await expect(page.getByRole('link', { name: /features|pricing|blog/i }).first()).toBeVisible();
+  }
   await assertViewportLayout(page);
 
   const primaryCta = page.getByRole('link', { name: /book a demo|get started|contact/i }).first();

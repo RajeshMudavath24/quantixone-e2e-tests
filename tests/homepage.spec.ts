@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { HomePage } from '../pages/HomePage';
-import { assertViewportLayout, openMainNavigation } from '../helpers/testHelpers';
+import { assertViewportLayout, openMainNavigation, safeClick } from '../helpers/testHelpers';
+import './setup';
 
 test.describe('Homepage - Core Content', () => {
   test('TC-HOME-001 hero heading and CTA are visible', async ({ page }) => {
@@ -20,8 +21,7 @@ test.describe('Homepage - Core Content', () => {
     const home = new HomePage(page);
     await home.navigate('/');
     const logo = page.getByRole('link', { name: /quantixone|logo|home/i }).first();
-    await expect(logo).toBeVisible();
-    await logo.click();
+    await safeClick(page, logo);
     await expect(page).toHaveURL(/quantixone\.com/);
   });
 
