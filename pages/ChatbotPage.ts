@@ -1,11 +1,28 @@
 import { expect, Locator, Page } from '@playwright/test';
-import { guardedClick, safeClick, safeGoto } from '../helpers/testHelpers';
+import { clickWithOverlaysClosed, guardedClick, closeBlockingOverlays, closeMobileDialogs } from '../helpers/testHelpers';
 
 export class ChatbotPage {
+  private static readonly ASSISTANT_REPLY_SELECTOR =
+    '[class*="bot" i], [class*="assistant" i], [data-testid*="bot" i], [data-testid*="assistant" i], [role="article"]';
+
   constructor(private readonly page: Page) {}
 
   async openHome(): Promise<void> {
-    await safeGoto(this.page, '/');
+    const urls = ['https://quantixone.com/', 'https://www.quantixone.com/'];
+    let lastError: unknown;
+
+    for (const url of urls) {
+      try {
+        await this.page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });
+        await closeBlockingOverlays(this.page);
+        await closeMobileDialogs(this.page);
+        return;
+      } catch (err) {
+        lastError = err;
+      }
+    }
+
+    throw lastError;
   }
 
   openButton(): Locator {
@@ -13,16 +30,17 @@ export class ChatbotPage {
   }
 
   async isAvailable(): Promise<boolean> {
-    return this.openButton().isVisible({ timeout: 12000 }).catch(() => false);
+    return this.openButton().isVisible({ timeout: 10000 }).catch(() => false);
   }
 
   async openPanel(): Promise<void> {
-    await safeClick(this.page, this.openButton());
-    await expect(this.page.getByRole('button', { name: /close chat/i })).toBeVisible({ timeout: 20000 });
+    await expect(this.openButton()).toBeVisible({ timeout: 30000 });
+    await clickWithOverlaysClosed(this.page, this.openButton());
+    await expect(this.page.getByRole('button', { name: /close chat/i })).toBeVisible({ timeout: 15000 });
     if (!(await this.panel().isVisible({ timeout: 4000 }).catch(() => false))) {
-      await safeClick(this.page, this.openButton());
+      await clickWithOverlaysClosed(this.page, this.openButton());
     }
-    await expect(this.panel()).toBeVisible({ timeout: 20000 });
+    await expect(this.panel()).toBeVisible({ timeout: 15000 });
   }
 
   /**
@@ -30,8 +48,6 @@ export class ChatbotPage {
    * (e.g. "Ask a question" or the Messages tab).
    */
   async ensureComposerReady(): Promise<void> {
-    const idleMs = 20000;
-
     const inputNowVisible = async (): Promise<boolean> => {
       const field = this.input();
       if (await field.isVisible({ timeout: 2500 }).catch(() => false)) {
@@ -42,7 +58,7 @@ export class ChatbotPage {
       return false;
     };
 
-    for (let attempt = 0; attempt < 4; attempt++) {
+    for (let attempt = 0; attempt < 3; attempt++) {
       if (!(await this.panel().isVisible({ timeout: 3000 }).catch(() => false))) {
         await this.openPanel();
       }
@@ -57,8 +73,7 @@ export class ChatbotPage {
       if (await messagesTab.isVisible({ timeout: 5000 }).catch(() => false)) {
         await guardedClick(messagesTab, true);
         await this.page.waitForLoadState('domcontentloaded').catch(() => null);
-        await this.page.waitForLoadState('networkidle', { timeout: idleMs }).catch(() => null);
-        await this.page.waitForTimeout(500 + attempt * 200);
+        await this.page.waitForTimeout(250 + attempt * 150);
         if (await inputNowVisible()) return;
       }
 
@@ -74,8 +89,7 @@ export class ChatbotPage {
       if (await askEntry.isVisible({ timeout: 8000 }).catch(() => false)) {
         await guardedClick(askEntry, true);
         await this.page.waitForLoadState('domcontentloaded').catch(() => null);
-        await this.page.waitForLoadState('networkidle', { timeout: idleMs }).catch(() => null);
-        await this.page.waitForTimeout(700 + attempt * 200);
+        await this.page.waitForTimeout(350 + attempt * 150);
         if (await inputNowVisible()) return;
       }
 
@@ -84,16 +98,15 @@ export class ChatbotPage {
         .first();
       if (await askFallback.isVisible({ timeout: 4000 }).catch(() => false)) {
         await guardedClick(askFallback, true);
-        await this.page.waitForLoadState('networkidle', { timeout: idleMs }).catch(() => null);
-        await this.page.waitForTimeout(700 + attempt * 200);
+        await this.page.waitForTimeout(350 + attempt * 150);
         if (await inputNowVisible()) return;
       }
 
-      await this.page.waitForTimeout(400 * (attempt + 1));
+      await this.page.waitForTimeout(250 * (attempt + 1));
     }
 
-    await this.page.waitForTimeout(600);
-    await expect(this.input()).toBeVisible({ timeout: 60000 });
+    await this.page.waitForTimeout(400);
+    await expect(this.input()).toBeVisible({ timeout: 30000 });
     await this.input().scrollIntoViewIfNeeded();
   }
 
@@ -142,22 +155,31 @@ export class ChatbotPage {
     return this.page.getByRole('button', { name: /send|submit|ask/i }).first();
   }
 
-  async sendMessage(message: string): Promise<void> {
-    await this.ensureComposerReady();
+  async sendMessage(message: string, ensureReady = true): Promise<void> {
+    if (ensureReady) {
+      await this.ensureComposerReady();
+    }
     await expect(this.input()).toBeVisible({ timeout: 20000 });
     await this.input().fill(message);
-    if (await this.sendButton().isVisible({ timeout: 1000 }).catch(() => false)) {
-      await safeClick(this.page, this.sendButton());
-    } else {
-      await this.input().press('Enter');
+    const send = this.sendButton();
+    if (await send.isVisible({ timeout: 800 }).catch(() => false)) {
+      const clicked = await send
+        .click({ timeout: 2000 })
+        .then(() => true)
+        .catch(() => false);
+      if (!clicked) {
+        await this.input().press('Enter');
+      }
+      return;
     }
+    await this.input().press('Enter');
   }
 
   latestAssistantReply(): Locator {
-    return this.page
-      .locator(
-        '[class*="bot" i], [class*="assistant" i], [data-testid*="bot" i], [data-testid*="assistant" i], [role="article"]'
-      )
-      .last();
+    return this.assistantReplies().last();
+  }
+
+  assistantReplies(): Locator {
+    return this.page.locator(ChatbotPage.ASSISTANT_REPLY_SELECTOR);
   }
 }

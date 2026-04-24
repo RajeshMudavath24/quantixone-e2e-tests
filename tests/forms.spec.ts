@@ -1,5 +1,7 @@
-import { test, expect, Page } from '@playwright/test';
+import { test, expect, Page, Frame } from '@playwright/test';
 import { DemoBookingPage } from '../pages/DemoBookingPage';
+import { closeBlockingOverlays } from '../helpers/testHelpers';
+import { waitForOTP } from '../helpers/otpHelper';
 import './setup';
 
 test.describe('Demo Booking Form - Validation and Submission', () => {
@@ -18,13 +20,87 @@ test.describe('Demo Booking Form - Validation and Submission', () => {
     return { booking, frame };
   }
 
-  test('TC-FORM-001 demo page opens and calendly iframe is visible', async ({ page }) => {
-    const { frame } = await setupForm(page);
-    if (frame) {
-      await expect(frame.locator('body')).toBeVisible();
-    } else {
-      await expect(page).toHaveURL(/demo|free-demo/i);
+  test('TC-FORM-001 demo booking flow works end-to-end', async ({ page }) => {
+    test.setTimeout(240000);
+    if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+      throw new Error('EMAIL_USER and EMAIL_PASS env vars are required');
     }
+
+    await page.goto('https://quantixone.com/', { waitUntil: 'domcontentloaded' });
+    await closeBlockingOverlays(page);
+
+    await expect(page.getByRole('link', { name: /book a demo/i }).first()).toBeVisible();
+    await page.getByRole('link', { name: /book a demo/i }).first().click();
+    await expect(page).toHaveURL(/free-demo|demo|booking/i);
+
+    const iframe = () => page.locator('iframe:visible').first();
+    const frame = () => page.frameLocator('iframe').first();
+    await expect(iframe()).toBeVisible({ timeout: 30000 });
+
+    await expect(
+      frame()
+        .locator('[role="grid"], [role="gridcell"], [role="radio"], button, text=/book|schedule|time|date/i')
+        .first()
+    ).toBeVisible({ timeout: 30000 });
+
+    const timePattern = /\d{1,2}[:.]\d{2}\s?(AM|PM)?/i;
+    const dateCandidates = frame()
+      .locator('button:visible:not([disabled]), [role="gridcell"]:visible:not([aria-disabled="true"])')
+      .filter({ hasNotText: /previous|next|month|year|timezone|time zone|book|confirm|continue/i });
+
+    const dateCount = await dateCandidates.count();
+    let selectedSlot = false;
+    for (let i = 0; i < Math.min(dateCount, 5); i++) {
+      const date = frame()
+        .locator('button:visible:not([disabled]), [role="gridcell"]:visible:not([aria-disabled="true"])')
+        .filter({ hasNotText: /previous|next|month|year|timezone|time zone|book|confirm|continue/i })
+        .nth(i);
+
+      const dateText = ((await date.textContent()) || '').trim();
+      if (!/\d/.test(dateText)) continue;
+      await date.scrollIntoViewIfNeeded();
+      await date.click();
+
+      const slots = frame().locator('button:visible:not([disabled]), [role="radio"]:visible, [role="option"]:visible');
+      const slotCount = await slots.count();
+      for (let j = 0; j < slotCount; j++) {
+        const slot = frame().locator('button:visible:not([disabled]), [role="radio"]:visible, [role="option"]:visible').nth(j);
+        const text = ((await slot.textContent()) || '').trim();
+        if (!timePattern.test(text)) continue;
+        await slot.scrollIntoViewIfNeeded();
+        await slot.click();
+        selectedSlot = true;
+        break;
+      }
+      if (selectedSlot) break;
+    }
+
+    if (!selectedSlot) {
+      throw new Error('No available booking slots in environment');
+    }
+
+    const missingInfo = frame().getByText(/Missing information/i).first();
+    await expect(missingInfo).toBeHidden({ timeout: 2000 });
+
+    await frame().locator('input[name*="name" i]').first().fill('Mudavath Rajesh');
+    await frame().locator('input[type="email"]').first().fill(process.env.EMAIL_USER);
+    await frame().locator('input[name*="phone" i], input[type="tel"]').first().fill('6305410878');
+
+    const submitButton = frame().getByRole('button', { name: /continue|schedule|confirm|book/i }).first();
+    await expect(submitButton).toBeVisible({ timeout: 20000 });
+    await submitButton.click();
+
+    await expect(frame().getByText(/Verify your email|verification code/i).first()).toBeVisible({
+      timeout: 20000,
+    });
+
+    const otp = await waitForOTP();
+    await frame().locator('input[type="text"], input[inputmode="numeric"], input[name*="otp" i]').first().fill(otp);
+    await frame().getByRole('button', { name: /continue|verify|confirm/i }).first().click();
+
+    await expect(frame().getByText(/confirmed|scheduled|thank you|confirmation/i).first()).toBeVisible({
+      timeout: 20000,
+    });
   });
 
   test('TC-FORM-002 required inputs are visible on details step', async ({ page }) => {

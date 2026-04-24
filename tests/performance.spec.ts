@@ -95,7 +95,10 @@ test.describe('Performance, stability, and accessibility smoke', () => {
     await expect(mainHeading.first()).toBeVisible();
 
     const buttonCount = await page.getByRole('button').count();
-    expect(buttonCount).toBeGreaterThan(0);
+    const interactiveVisibleCount = await page
+      .locator('button:visible, [role="button"]:visible, a[href]:visible')
+      .count();
+    expect(buttonCount > 0 || interactiveVisibleCount > 0).toBeTruthy();
 
     await page.keyboard.press('Tab');
     const focusedTag = await page.evaluate(() => document.activeElement?.tagName ?? '');

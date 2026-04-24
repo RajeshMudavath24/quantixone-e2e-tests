@@ -10,6 +10,11 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
-    "@playwright/test": "^1.59.1"
+    "@playwright/test": "^1.59.1",
+    "@types/node": "^25.6.0"
+  },
+  "dependencies": {
+    "imap-simple": "^5.1.0",
+    "mailparser": "^3.9.8"
   }
 }

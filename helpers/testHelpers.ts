@@ -1,7 +1,8 @@
 import { expect, Locator, Page } from '@playwright/test';
+import type { ChatbotPage } from '../pages/ChatbotPage';
 
 export async function guardedClick(locator: Locator, allowForce: boolean = false): Promise<void> {
-  await expect(locator).toBeVisible({ timeout: 60000 });
+  await expect(locator).toBeVisible({ timeout: 30000 });
   await locator.scrollIntoViewIfNeeded();
   try {
     await locator.click();
@@ -52,11 +53,11 @@ export async function closeMobileDialogs(page: Page): Promise<void> {
 }
 
 /** networkidle max wait — capped so pages with perpetual requests do not burn 60s per stabilize call */
-const NETWORK_IDLE_MS = 20000;
+const NETWORK_IDLE_MS = 15000;
 
 export async function stabilizePage(page: Page): Promise<void> {
   if (page.isClosed()) return;
-  await page.waitForLoadState('domcontentloaded', { timeout: 60000 }).catch(() => null);
+  await page.waitForLoadState('domcontentloaded', { timeout: 30000 }).catch(() => null);
   await page.waitForLoadState('networkidle', { timeout: NETWORK_IDLE_MS }).catch(() => null);
   await closeBlockingOverlays(page);
   await closeMobileDialogs(page);
@@ -82,14 +83,14 @@ export async function safeGoto(page: Page, path: string = '/'): Promise<void> {
   const candidateUrls = primaryUrl === fallbackUrl ? [primaryUrl] : [primaryUrl, fallbackUrl];
 
   let lastError: unknown;
-  const maxRounds = 6;
+  const maxRounds = 3;
 
   for (let round = 0; round < maxRounds; round++) {
     for (const url of candidateUrls) {
       try {
         await page.goto(url, {
           waitUntil: 'domcontentloaded',
-          timeout: 60000,
+          timeout: 30000,
         });
         await stabilizePage(page);
         return;
@@ -144,7 +145,7 @@ export async function clickIfVisible(locator: Locator, timeoutMs: number = 3000)
 export async function safeClick(page: Page, locator: Locator): Promise<void> {
   await stabilizePage(page);
   await guardedClick(locator, true);
-  await page.waitForLoadState('domcontentloaded', { timeout: 60000 }).catch(() => null);
+  await page.waitForLoadState('domcontentloaded', { timeout: 30000 }).catch(() => null);
   await page.waitForLoadState('networkidle', { timeout: NETWORK_IDLE_MS }).catch(() => null);
 }
 
@@ -154,14 +155,14 @@ export async function clickWithOverlaysClosed(page: Page, locator: Locator): Pro
   await closeBlockingOverlays(page);
   await closeMobileDialogs(page);
   if (page.isClosed()) return;
-  await expect(locator).toBeVisible({ timeout: 60000 });
+  await expect(locator).toBeVisible({ timeout: 30000 });
   await locator.scrollIntoViewIfNeeded();
   try {
     await locator.click();
   } catch {
     await locator.click({ force: true });
   }
-  await page.waitForLoadState('domcontentloaded', { timeout: 60000 }).catch(() => null);
+  await page.waitForLoadState('domcontentloaded', { timeout: 30000 }).catch(() => null);
   await page.waitForLoadState('networkidle', { timeout: NETWORK_IDLE_MS }).catch(() => null);
 }
 
@@ -170,4 +171,58 @@ export async function assertViewportLayout(page: Page): Promise<void> {
   if (!viewport) return;
   const bodyWidth = await page.evaluate(() => document.body.scrollWidth);
   expect(bodyWidth).toBeLessThanOrEqual(viewport.width + 30);
+}
+
+export async function getValidChatbotResponse(
+  page: Page,
+  chatbot: ChatbotPage,
+  message: string
+): Promise<string> {
+  const maxRetries = 3; // 1 initial attempt + 2 retries
+  const snagMessage = page.locator('text=We hit a snag');
+  let lastFailureReason = 'No assistant response was captured.';
+
+  for (let attempt = 0; attempt < maxRetries; attempt++) {
+    await expect(chatbot.input()).toBeVisible({ timeout: 20000 });
+    const repliesBeforeSend = await chatbot.assistantReplies().count();
+    await chatbot.sendMessage(message);
+
+    const newReplyArrived = await expect
+      .poll(async () => (await chatbot.assistantReplies().count()) > repliesBeforeSend, {
+        timeout: 15000,
+        intervals: [500, 1000, 1500],
+      })
+      .toBeTruthy()
+      .then(() => true)
+      .catch(() => false);
+
+    if (!newReplyArrived) {
+      await snagMessage.waitFor({ timeout: 2000 }).catch(() => null);
+    }
+
+    const errorVisible = await snagMessage.isVisible({ timeout: 2000 }).catch(() => false);
+    if (errorVisible) {
+      console.log(`Retrying chatbot due to error (attempt ${attempt + 1})`);
+      lastFailureReason = 'Assistant returned "We hit a snag talking to the assistant".';
+      continue;
+    }
+
+    const reply = await expect
+      .poll(async () => ((await chatbot.latestAssistantReply().textContent()) ?? '').trim(), {
+        timeout: 8000,
+        intervals: [500, 1000, 1500],
+      })
+      .toMatch(/.{11,}/)
+      .then(async () => ((await chatbot.latestAssistantReply().textContent()) ?? '').trim())
+      .catch(() => '');
+
+    if (reply.length > 10) {
+      return reply;
+    }
+    lastFailureReason = 'Assistant reply was empty or too short.';
+  }
+
+  throw new Error(
+    `Chatbot failed after 2 retries for message "${message}". Last failure: ${lastFailureReason}`
+  );
 }
